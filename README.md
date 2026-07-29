@@ -15,7 +15,7 @@ js/main.js          nav, tabs, form, scroll build, accordions
 assets/favicon.svg  tab icon
 nginx.conf          server config baked into the image
 Dockerfile          nginx:alpine + the static files
-docker-compose.yml  what Komodo deploys
+compose.yaml        what Komodo deploys
 ```
 
 ## Running locally
@@ -34,8 +34,8 @@ needs nothing but the repo itself.
 
 1. **Push this repo to GitHub** (see below).
 2. In Komodo, create a **Stack**.
-3. Point it at this repository and set the compose file path to
-   `docker-compose.yml`.
+3. Point it at this repository and leave **File Paths** empty — Komodo
+   defaults to `compose.yaml`, which is what this repo uses.
 4. If the repo is private, attach a GitHub token/account in Komodo first.
 5. **Deploy.** The container attaches to the existing `main-router` network at
    **10.10.10.13** and answers on port 80 — <http://10.10.10.13>.
@@ -57,7 +57,7 @@ the webhook URL to the repo's settings.
 
 ### Changing the address
 
-The IP is set once, in the `networks` block of `docker-compose.yml`. Because the
+The IP is set once, in the `networks` block of `compose.yaml`. Because the
 container sits on the LAN directly there is no host port mapping to reason
 about — port 80 on `10.10.10.13` is the site.
 

@@ -3,6 +3,8 @@ services:
     build:
       context: .
     image: aleya-site:latest
+    # Built here, never pushed to a registry — so build it, don't pull it.
+    pull_policy: build
     container_name: aleya-site
     restart: unless-stopped
     networks:
