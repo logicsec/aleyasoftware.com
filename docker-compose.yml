@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+    image: aleya-site:latest
+    container_name: aleya-site
+    restart: unless-stopped
+    ports:
+      # host:container — change the host port if 8080 is taken.
+      - "8080:80"
