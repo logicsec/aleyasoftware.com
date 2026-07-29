@@ -37,17 +37,29 @@ needs nothing but the repo itself.
 3. Point it at this repository and set the compose file path to
    `docker-compose.yml`.
 4. If the repo is private, attach a GitHub token/account in Komodo first.
-5. **Deploy.** The site comes up on host port `8080`.
-6. Point your reverse proxy (Caddy, Traefik, NPM — whatever fronts your other
-   services) at `8080`, terminate TLS there, and send `aleyasoftware.com` to it.
+5. **Deploy.** The container attaches to the existing `main-router` network at
+   **10.10.10.13** and answers on port 80 — <http://10.10.10.13>.
+6. Point your reverse proxy at `10.10.10.13:80`, terminate TLS there, and send
+   `aleyasoftware.com` to it.
+
+The `main-router` network is declared `external: true`, so it must already exist
+on the host and its subnet has to contain `10.10.10.13`. Check with:
+
+```bash
+docker network inspect main-router
+```
+
+If the stack fails to start with a network or address error, that is the first
+thing to look at — either the network is missing, or `.13` is already taken.
 
 Redeploying on a push is just Komodo's webhook — enable it on the Stack and add
 the webhook URL to the repo's settings.
 
-### Changing the port
+### Changing the address
 
-`8080` is arbitrary. If it clashes with something already on the host, edit the
-`ports` line in `docker-compose.yml` — only the left-hand number.
+The IP is set once, in the `networks` block of `docker-compose.yml`. Because the
+container sits on the LAN directly there is no host port mapping to reason
+about — port 80 on `10.10.10.13` is the site.
 
 ### Adding a page
 

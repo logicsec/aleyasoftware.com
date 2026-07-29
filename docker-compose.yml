@@ -5,6 +5,14 @@ services:
     image: aleya-site:latest
     container_name: aleya-site
     restart: unless-stopped
-    ports:
-      # host:container — change the host port if 8080 is taken.
-      - "8080:80"
+    networks:
+      main-router:
+        ipv4_address: 10.10.10.13
+
+networks:
+  # Created outside this stack, so Docker on the host must already know it and
+  # its subnet has to contain 10.10.10.13. On a macvlan network the container
+  # holds that address on the LAN directly — no host port mapping is needed,
+  # and the site answers on http://10.10.10.13 (port 80).
+  main-router:
+    external: true
